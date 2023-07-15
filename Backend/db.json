@@ -1,0 +1,175 @@
+{
+    "estudiantes":[
+        {
+            "id":1,
+            "nombre":"Alfredo Valverde Aranibar",
+            "nacimiento":"20/09/1986",
+            "ci":"5802817",
+            "foto":"dirección url"
+        },
+        {
+            "id":2,
+            "nombre":"Jose Luis Gaspar Blanco",
+            "nacimiento":"01/11/2000",
+            "ci":"45216214",
+            "foto":"dirección url"
+        }
+    ],
+    "semestres":[
+        {
+            "id":1,
+            "nombre":"primer semestre"
+        },
+        {
+            "id":2,
+            "nombre":"segundo semestre"
+        },
+        {
+            "id":3,
+            "nombre":"tercer semestre"
+        },
+        {
+            "id":4,
+            "nombre":"cuarto semestre"
+        },
+        {
+            "id":5,
+            "nombre":"quinto semestre"
+        },
+        {
+            "id":6,
+            "nombre":"sexto semestre"
+        },{
+            "id":7,
+            "nombre":"septimo semestre"
+        },
+        {
+            "id":8,
+            "nombre":"octavo semestre"
+        },{
+            "id":9,
+            "nombre":"noveno semestre"
+        },
+        {
+            "id":10,
+            "nombre":"decimo semestre"
+        }
+    ],
+    "codigos":[
+        {
+            "id":1,
+            "nombre":"FIS"
+        },
+        {
+            "id":2,
+            "nombre":"MAT"
+        },
+        {
+            "id":3,
+            "nombre":"QMC"
+        }
+    ],
+    "materias":[
+        {
+            "id":1,
+            "cod":100,
+            "codigosId":1,
+            "nombre":"física básica I",
+            "semestresId":1
+        },
+        {
+            "id":2,
+            "cod":101,
+            "codigosId":1,
+            "nombre":"laboratorio de física básica I",
+            "semestresId":1
+        },
+        {
+            "id":3,
+            "cod":132,
+            "codigosId":2,
+            "nombre":"cálculo I",
+            "semestresId":1
+        },
+        {
+            "id":4,
+            "cod":100,
+            "codigosId":3,
+            "nombre":"química general",
+            "semestresId":1
+        },
+        {
+            "id":5,
+            "cod":130,
+            "codigosId":2,
+            "nombre":"algebra I",
+            "semestresId":1
+        },
+        {
+            "id":6,
+            "cod":102,
+            "codigosId":1,
+            "nombre":"física básica II",
+            "semestresId":2
+        },
+        {
+            "id":7,
+            "cod":103,
+            "codigosId":1,
+            "nombre":"laboratorio de física básica II",
+            "semestresId":2
+        },
+        {
+            "id":8,
+            "cod":134,
+            "codigosId":2,
+            "nombre":"cálculo II",
+            "semestresId":2
+        },
+        {
+            "id":9,
+            "cod":136,
+            "codigosId":2,
+            "nombre":"algebra lineal",
+            "semestresId":2
+        }
+    ],
+    "estudiante_materia":[
+        {
+            "estudiantesId":1,
+            "materiasId":1
+        },
+        {
+            "estudiantesId":1,
+            "materiasId":2
+        },
+        {
+            "estudiantesId":1,
+            "materiasId":3
+        },
+        {
+            "estudiantesId":1,
+            "materiasId":4
+        },
+        {
+            "estudiantesId":2,
+            "materiasId":5
+        },
+        {
+            "estudiantesId":2,
+            "materiasId":6
+        },
+        {
+            "estudiantesId":2,
+            "materiasId":7
+        },
+        {
+            "estudiantesId":2,
+            "materiasId":8
+        },
+        {
+            "estudiantesId":2,
+            "materiasId":4
+        }
+    ]
+}
