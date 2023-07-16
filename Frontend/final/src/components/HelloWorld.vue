@@ -19,19 +19,8 @@
     <p :style="{ fontSize: tamanio }">
       Presentamos las materias por semestre que lleva un alumno de la carrerra
     </p>
-    <ul v-for="item in items">
-      <h4>{{ item.semestres.nombre }}</h4>
-      <li style="text-transform: uppercase;">{{ item.codigos.nombre }} - {{ item.cod }} {{ item.nombre }}</li>
-    </ul>
-    <h3>Ecosystem</h3>
-    <ul>
-      <li><a href="https://router.vuejs.org" target="_blank" rel="noopener">vue-router</a></li>
-      <li><a href="https://vuex.vuejs.org" target="_blank" rel="noopener">vuex</a></li>
-      <li><a href="https://github.com/vuejs/vue-devtools#vue-devtools" target="_blank" rel="noopener">vue-devtools</a>
-      </li>
-      <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
-    </ul>
+    <slot name="malla"></slot>
+    
   </div>
 </template>
 
@@ -43,28 +32,9 @@ export default {
     msg: String
   },
   data() {
-    const api = process.env.VUE_APP_API
     return {
-      api,
-      tamanio: "large",
-      items: []
+      tamanio: "large"
     }
-  },
-  methods: {
-    getMaterias() {
-      this.axios({
-        method: "get",
-        url: this.api + '/materias?_expand=codigos&_expand=semestres'
-      }).then((response) => {
-        this.items = response.data;
-        console.log(this.items);
-      }).catch((error) => {
-        console.log(error);
-      }).finally(() => { })
-    }
-  },
-  mounted(){
-    this.getMaterias();
   }
 }
 </script>
