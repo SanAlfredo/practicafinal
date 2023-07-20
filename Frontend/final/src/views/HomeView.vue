@@ -6,7 +6,7 @@
         <div v-for="item in semestres">
           <h4>{{ item.nombre }}</h4>
           <ul v-for="items in materias">
-            <li style="text-transform: uppercase;" v-if="item.nombre === items.semestres.nombre">{{ items.codigos.nombre
+            <li style="text-transform: uppercase;" v-if="item.nombre === items.semestre.nombre">{{ items.codigo.nombre
             }} - {{ items.cod }} {{ items.nombre }}</li>
           </ul>
         </div>
@@ -40,7 +40,7 @@ export default {
     getMaterias() {
       this.axios({
         method: "get",
-        url: this.api + '/materias?_expand=codigos&_expand=semestres'
+        url: this.api + '/materias/todo'
       }).then((response) => {
         this.materias = response.data;
         console.log(this.items);
