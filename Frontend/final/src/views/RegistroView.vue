@@ -14,6 +14,7 @@
               <th>Nacimiento</th>
               <th>Carnet</th>
               <th>Foto</th>
+              <th></th>
             </tr>
           </thead>
 
@@ -26,6 +27,10 @@
                 <figure>
                   <img :src="this.api + `/estudiantes/foto/${item.foto}`" style="width: 30%; height: 30%;">
                 </figure>
+              </td>
+              <td>
+                <router-link :to="'/editar/estudiante/' + item.id"><i class="material-icons">create</i></router-link>
+                <i class="material-icons" style="color:red" @click="eliminarItem(item.id)">delete_forever</i>
               </td>
             </tr>
           </tbody>
