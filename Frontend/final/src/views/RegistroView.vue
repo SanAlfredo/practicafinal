@@ -6,7 +6,10 @@
 
     <Tablas>
       <template v-slot:lista>
-
+        <search placeholder="Buscar estudiante" @searchtext="searchFx($event)"></search>
+        <filter-group>
+          <filter-item :items="materias" label="Materias" @onfilter="onFilterFx($event)"></filter-item>
+        </filter-group>
         <table class="highlight responsive-table ">
           <thead>
             <tr>
@@ -30,7 +33,8 @@
               </td>
               <td>
                 <router-link :to="'/editar/estudiante/' + item.id"><i class="material-icons">create</i></router-link>
-                <i class="material-icons" style="color:red" @click="eliminarItem(item.id)">delete_forever</i>
+                <i class="material-icons" style="color:red"
+                  @click="eliminarEstudiante(item.id, item.foto)">delete_forever</i>
               </td>
             </tr>
           </tbody>
@@ -86,12 +90,14 @@
 // @ is an alias to /src
 import FooterApp from '@/components/Footer.vue'
 import Tablas from '@/components/Tablas.vue'
-
+import Search from '@/components/Search.vue'
+import FilterGroup from '@/components/FilterGroup.vue'
+import FilterItem from '@/components/FilterItem.vue'
 
 export default {
   name: 'RegistroView',
   components: {
-    FooterApp, Tablas
+    FooterApp, Tablas, Search, FilterGroup, FilterItem
   },
   data() {
     const api = process.env.VUE_APP_API
@@ -99,7 +105,10 @@ export default {
       api,
       imagenMiniatura: "",
       estudiantes: [],
+      materias: [],
       fichero: null,
+      toSearch: "",
+      toFilter: "",
       estudianteload: {
         nombre: "",
         nacimiento: "",
@@ -110,12 +119,81 @@ export default {
   },
   methods: {
     getEstudiantes() {
+      console.log("estos son: " + this.toSearch + " " + this.toFilter);
+      if (this.toSearch != "" && this.toFilter != "") {
+        this.axios({
+          method: "get",
+          url: this.api + '/estudiantes' + this.toSearch + this.toFilter
+        }).then((response) => {
+          // console.log(response)
+          if (response.data.length > 0) {
+            this.estudiantes = response.data[0].estudiantes;
+            console.log(this.estudiantes);
+          } else {
+            this.estudiantes = []
+          }
+        }).catch((error) => {
+          console.log(error);
+        }).finally(() => { })
+      };
+      if (this.toSearch == "" && this.toFilter != "") {
+        this.axios({
+          method: "get",
+          url: this.api + '/estudiantes' + this.toFilter
+        }).then((response) => {
+          if (response) {
+            this.estudiantes = response.data[0].estudiantes;
+            console.log(this.estudiantes);
+          } else {
+            this.estudiantes = []
+          }
+
+        }).catch((error) => {
+          console.log(error);
+        }).finally(() => { })
+      };
+      if (this.toSearch == "" && this.toFilter == "") {
+        this.axios({
+          method: "get",
+          url: this.api + '/estudiantes'
+        }).then((response) => {
+          if (response) {
+            this.estudiantes = response.data;
+            console.log(this.estudiantes);
+          } else {
+            this.estudiantes = [];
+          }
+        }).catch((error) => {
+          console.log(error);
+        }).finally(() => { })
+      };
+      if (this.toSearch != "" && this.toFilter == "") {
+        this.axios({
+          method: "get",
+          url: this.api + '/estudiantes' + this.toSearch
+        }).then((response) => {
+          if (response) {
+            this.estudiantes = response.data;
+            console.log(this.estudiantes);
+          } else {
+            this.estudiantes = [];
+          }
+        }).catch((error) => {
+          console.log(error);
+        }).finally(() => { })
+      };
+    },
+    getMaterias() {
       this.axios({
         method: "get",
-        url: this.api + '/estudiantes'
+        url: this.api + '/materias'
       }).then((response) => {
-        this.estudiantes = response.data;
-        console.log(this.estudiantes);
+        this.materias = response.data;
+        console.log(this.materias);
+        setTimeout(function () {
+          var elems = document.querySelectorAll('select');
+          var select = M.FormSelect.init(elems);
+        });
       }).catch((error) => {
         console.log(error);
       }).finally(() => { })
@@ -162,6 +240,29 @@ export default {
           console.log(error)
         });
     },
+    eliminarEstudiante(id, foto) {
+      if (confirm("Esta seguro de eliminar?")) {
+        this.axios({
+          method: 'delete',
+          url: this.api + '/estudiantes/foto/' + foto
+        }).then((response) => {
+          if (response.data.message == "borrado exitoso") {
+            this.axios({
+              method: 'delete',
+              url: this.api + '/estudiantes/' + id
+            })
+              .then((response) => {
+                this.getEstudiantes();
+                console.log(response);
+              }).catch((error) => { console.log(error) });
+          } else {
+            alert("ha ocurrido un problema al borrar");
+          }
+        }).catch((error) => {
+          console.log(error);
+        });
+      }
+    },
     obtenerImagen(e) {
       let file = e.target.files[0];
       const allowedTypes = ["image/jpg", "image/jpeg", "image/png", "image/gif"];
@@ -178,6 +279,22 @@ export default {
         this.imagenMiniatura = e.target.result;
       }
       reader.readAsDataURL(file);
+    },
+    searchFx(event) {
+      if (event === "") {
+        this.toSearch = '';
+      } else {
+        this.toSearch = '/nombre/' + event;
+      }
+      this.getEstudiantes();
+    },
+    onFilterFx(field) {
+      if (field != 0) {
+        this.toFilter = '/materia/' + field;
+      } else {
+        this.toFilter = '';
+      }
+      this.getEstudiantes();
     }
   },
   computed: {
@@ -187,6 +304,7 @@ export default {
   },
   mounted() {
     this.getEstudiantes();
+    this.getMaterias();
   },
   created() {
     setTimeout(() => {
